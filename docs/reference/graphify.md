@@ -20,9 +20,9 @@ All three are written to `graphify-out/` in the vault root.
 
 The following sequence was used to establish the vault's domain structure from a flat collection of ~4,000 notes.
 
-1. Run graphify over the raw vault:
+1. Run graphify over the raw vault (output goes to `graphify-out/` by default):
    ```bash
-   graphify . --output graphify-out/
+   graphify .
    ```
 2. Read `graphify-out/GRAPH_REPORT.md`. Look for: which concepts have the most connections (god nodes), which clusters are cohesive, which files are semantic outliers.
 3. Identify natural clusters from the report. The report surfaces which concepts naturally group together — use those groupings to decide domain names.
@@ -32,7 +32,7 @@ The following sequence was used to establish the vault's domain structure from a
 
 **Bootstrap stats from the original run:** 21 parallel extraction agents processed 446 files, producing 1,736 nodes and 1,792 edges across 197 Leiden communities. Five domains were identified: AI, Cloud, Data, Engineering, Homelab.
 
-**God nodes from the original run** (highest edge counts): ML Terminology (27 edges), Azure AZ-305 (17), Azure DevOps Pipelines (14). These are the most semantically central concepts in the vault — any new page touching these topics should reference them.
+**God nodes from the original run** (highest edge counts): ML Terminology (27 edges), Azure AZ-305 (17), Azure DevOps Pipelines (14). These are vault-specific — your graph will surface different god nodes depending on your corpus. The principle is the same: the most-connected nodes are the concepts any new page in that domain should consider linking to.
 
 ## Ongoing Incremental Use
 

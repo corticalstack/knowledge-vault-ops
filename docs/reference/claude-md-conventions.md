@@ -42,11 +42,11 @@ It contains five blocks:
 
 **graphify integration rules:** read `GRAPH_REPORT.md` before answering architecture or codebase questions, so Claude has community structure as context when authoring new wiki pages.
 
-**Full wiki page schema:** all frontmatter fields, valid `type` values by domain, required body sections (`## Summary`, `## Key Concepts`, `## How It Works`, `## Connections`, `## Sources`). This is what makes vault-ingest produce schema-compliant pages without explicit per-session instruction.
+**Full wiki page schema:** all frontmatter fields, valid `type` values by domain, required body sections (`## How It Works`, `## Tensions & Open Questions`, `## See Also`, `## Sources`). This is what makes vault-ingest produce schema-compliant pages without explicit per-session instruction.
 
 **Inbox ingestion workflow:** step-by-step — read the inbox file, determine the target page and domain, apply the schema, write the page, delete the inbox file, add the source citation, check bidirectional links.
 
-**YAML editing warning:** never overwrite the entire frontmatter block; edit only the specific field that needs changing. Overwriting silently drops fields that were populated by automation.
+**YAML editing warning:** never use `yaml.safe_load` → re-serialize to edit frontmatter. It corrupts `builds_on` and `appears_in` list fields. Use raw text manipulation or targeted line edits only.
 
 **Agent memory system structure and session capture workflow:** the per-repo and agents-shared directory structure, and the same capture workflow as the global file (so it is available when working in the vault repo itself).
 

@@ -24,7 +24,7 @@ lessons-learned/{domain}/
   {lesson-title}.md  — one file per lesson, domain-organised
 ```
 
-`lessons-learned/` is created and populated automatically by the vault-ingest GitHub Action when captures include a lesson that warrants its own file.
+`lessons-learned/` is populated manually or via vault captures. Drop a `.md` file into a domain inbox with `capture_type: new_concept` and a domain mapping to an existing area, and vault-ingest will write it to the appropriate category. Files can also be written here directly in a Claude Code session via "capture this to the vault".
 
 ## How It Works in Practice
 
