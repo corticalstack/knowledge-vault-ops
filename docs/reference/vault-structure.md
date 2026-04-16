@@ -11,9 +11,11 @@ knowledge-vault/
   Data/
   Engineering/
   Homelab/
-  _INDEX.md          — cross-domain map and bridge concepts
-  CLAUDE.md          — schema + instructions for Claude
-  VAULT_GUIDE.md     — human-readable design guide
+  Personal/             — owner-specific notes (not part of the wiki system)
+  Assets/               — images and attachments (not part of the wiki system)
+  _INDEX.md             — cross-domain map and bridge concepts
+  CLAUDE.md             — schema + instructions for Claude
+  VAULT_GUIDE.md        — human-readable design guide
   scripts/
     verify-wiki.py
   docs/
@@ -26,6 +28,9 @@ knowledge-vault/
   luminary-scan/
     luminaries.json
     seen-urls.json
+  lessons-learned/
+    {domain}/
+      {lesson-title}.md
   projects/
     {repo-name}/
       context.md
@@ -52,6 +57,7 @@ Domain/
   wiki-recent.base     — Obsidian view: all pages by updated date
   wiki-stubs.base      — Obsidian view: source_count ≤ 1
   wiki-mature.base     — Obsidian view: source_count ≥ 3
+  wiki-review.base     — Obsidian view: pages flagged for review
 ```
 
 The `_INDEX.md` at the domain level is a curated entry point — a human-readable overview of what that domain covers and links to key pages. It is distinct from the root-level `_INDEX.md`, which maps connections across domains and tracks bridge concepts that span multiple areas.
@@ -88,7 +94,9 @@ This distinction is the most important structural fact for tooling and automatio
 - `scripts/` and `docs/scripts/` (tooling)
 - `luminary-scan/` (luminary URL tracking data)
 - `projects/` and `agents-shared/` (repo-specific context and cross-repo patterns)
+- `lessons-learned/` (domain-organised lessons from development sessions)
 - `Templates/` (page templates)
+- `Personal/` and `Assets/` (owner-specific notes and attachments — not part of the wiki system)
 
 If you run `verify-wiki.py` and a known-good infrastructure file produces an error, check that it has not accidentally been placed inside a `domain/category/` path. The validator does not distinguish by filename — only by location.
 

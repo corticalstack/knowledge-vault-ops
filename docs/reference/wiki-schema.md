@@ -9,9 +9,7 @@ Each wiki page opens with a YAML frontmatter block. All fields listed below are 
 ```yaml
 ---
 title: Page Title
-aliases:
-- alternative name
-- abbreviation
+aliases: []
 tags:
 - Domain/category
 type: concept            # see valid types by domain below
@@ -24,8 +22,7 @@ related:
 - '[[Other Page]]'       # MUST be bidirectional
 builds_on:
 - '[[Other Page]]'       # prerequisite concepts (one-directional)
-contrasts_with:
-- '[[Other Page]]'       # opposing concepts (one-directional)
+contrasts_with: []       # opposing concepts (one-directional); default empty
 appears_in: []
 # Extended fields (added by luminary-scan Action):
 # origin: luminary-scan
