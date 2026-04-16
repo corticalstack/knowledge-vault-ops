@@ -44,7 +44,7 @@ Configuration used in this system:
 - **Auto-push after file change**: enabled (or set a short commit interval) — ensures new inbox files are pushed to GitHub promptly
 - **Commit message**: `vault backup: {{date}}`
 
-Why it matters: Obsidian Git is the trigger mechanism for `vault-ingest`. The full chain is: drop a file into `_inbox/` in Obsidian → Obsidian Git commits and pushes → GitHub sees the push → `vault-ingest` fires. Without auto-push, inbox files sit locally and nothing happens.
+Why it matters: Obsidian Git is one of two trigger mechanisms for `vault-ingest` — the other is `luminary-scan`, which pushes inbox files automatically after each nightly scan. For manual captures, the chain is: drop a file into `_inbox/` in Obsidian → Obsidian Git commits and pushes → GitHub sees the push → `vault-ingest` fires. Without auto-push, manually dropped inbox files sit locally and nothing happens.
 
 ## Claude Code CLI Subscription
 
