@@ -65,7 +65,7 @@ Both Actions invoke `claude -p` (headless/non-interactive mode) and authenticate
 
 See [Costs](costs.md) for what this system would cost if you substituted a raw API key.
 
-**How to get the token**: Claude.ai account settings → Claude Code → OAuth token. This is separate from anything at console.anthropic.com.
+**How to get the token**: run `claude setup-token` in your terminal. It opens a browser for OAuth authorisation and then prints a one-year token to stdout. Copy that token and add it as the `CLAUDE_CODE_OAUTH_TOKEN` repository secret (see Required GitHub Secrets below). Requires a Pro, Max, Team, or Enterprise Claude subscription.
 
 ## Required GitHub Secrets
 
