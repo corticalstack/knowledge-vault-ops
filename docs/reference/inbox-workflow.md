@@ -33,4 +33,14 @@ From any repo, Claude will also proactively suggest capturing when it encounters
 
 ## Inbox File Format
 
-See [templates/inbox-entry.md](../../templates/inbox-entry.md) for the canonical template. The format matters: vault-ingest reads specific frontmatter fields — `sources`, `domain`, `capture_type`, and `enriches` — to determine ingestion behaviour (new page vs. enrichment, destination file, bidirectional link targets).
+See [templates/inbox-entry.md](../../templates/inbox-entry.md) for the canonical template. The format matters: vault-ingest reads the frontmatter to determine ingestion behaviour. Key fields:
+
+- `sources` — list of URLs the content was drawn from
+- `luminary` — the luminary who authored the content (null for manual captures)
+- `date` — the date the source content was published (YYYY-MM-DD)
+- `domain` — target vault domain (AI | Cloud | Data | Engineering | Homelab)
+- `capture_type` — `new_concept` or `enrichment`
+- `enriches` — `[[Page Name]]` if enrichment; omit for new concepts
+- `origin` — `manual` or `luminary-scan`
+
+The body requires four sections: `## Summary`, `## Key Points`, `## Connections`, and `## Source Quote / Key Excerpt`.
