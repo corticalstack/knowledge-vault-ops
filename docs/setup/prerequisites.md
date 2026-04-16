@@ -6,6 +6,34 @@ You need a standard git repository pushed to GitHub. No special configuration is
 
 If you intend to run on self-hosted runners or another CI platform, you will need to adapt the checkout and push steps accordingly. The Actions as written assume GitHub-hosted runners.
 
+## SSH Key for GitHub
+
+Obsidian Git pushes to your GitHub repository using SSH. You need an SSH key registered with GitHub before the plugin can authenticate.
+
+If you do not already have one:
+
+```bash
+ssh-keygen -t ed25519 -C "your@email.com"
+# Accept the default path (~/.ssh/id_ed25519) or choose your own
+cat ~/.ssh/id_ed25519.pub
+```
+
+Copy the output and add it to GitHub: **GitHub → Settings → SSH and GPG keys → New SSH key**.
+
+Then clone your vault repository using the SSH remote (not HTTPS):
+
+```bash
+git clone git@github.com:your-username/your-vault.git
+```
+
+If you already cloned with HTTPS, switch to SSH:
+
+```bash
+git remote set-url origin git@github.com:your-username/your-vault.git
+```
+
+Obsidian Git uses the SSH key from your system's default SSH agent. On Windows, ensure the key is added to your agent (`ssh-add ~/.ssh/id_ed25519`) or use a tool like Pageant. On macOS and Linux this is typically handled automatically.
+
 ## Obsidian Git Plugin
 
 Install via: Obsidian → Settings → Community plugins → Browse → search "Obsidian Git" → Install → Enable.
