@@ -6,7 +6,7 @@ luminary: {{Full Name or omit if manual capture}}
 date: {{YYYY-MM-DD}}
 domain: {{AI|Cloud|Data|Engineering|Homelab}}
 capture_type: {{new_concept|enrichment}}
-enriches: [[{{Page Name — omit this line if capture_type is new_concept}}]]
+enriches: [[Target Page Name]]
 origin: {{luminary-scan|manual}}
 
 ## Summary

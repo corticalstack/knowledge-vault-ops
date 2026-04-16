@@ -1,5 +1,7 @@
 ## graphify
 
+> Only add this block if you have run graphify on your vault (see [quick-start](../docs/setup/quick-start.md) steps 1–2). Delete this section if you have not run graphify yet.
+
 This project has a graphify knowledge graph at graphify-out/.
 The pip package name is **`graphifyy`** (double y): `pip install graphifyy --break-system-packages`
 Invoke via the `/graphify` skill in Claude Code — the skill handles installation automatically.
