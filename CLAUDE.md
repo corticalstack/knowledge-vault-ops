@@ -5,7 +5,7 @@ This repo documents and replicates the knowledge-vault system.
 ## Source vault
 
 The live source vault is at `/mnt/c/Users/jonpaulboyd/Documents/knowledge-vault`
-(GitHub: corticalstack/knowledge-vault).
+(GitHub: corticalstack/knowledge-vault). Replicators: replace this path with your own vault location.
 
 `templates/` mirrors live files from the source vault. Before updating any template,
 read the corresponding live file first, then overwrite the template to match.
