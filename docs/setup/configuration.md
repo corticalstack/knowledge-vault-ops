@@ -35,7 +35,11 @@ on:
     - cron: '0 23 * * *'   # change this
 ```
 
-**Sizing note**: each luminary scan can take 1–3 minutes. At 43 luminaries, a full run can take up to 2 hours. The Action has `timeout-minutes: 60` set — adjust this upward if your roster is significantly larger, or downward if you want a hard cap on runtime. See [Costs](costs.md) for runner-minute implications.
+**Sizing note**: each luminary scan can take 1–3 minutes. At 43 luminaries, a full run can take up to 130 minutes. The Action has `timeout-minutes: 60` set — with the default roster it will typically be killed by this limit mid-scan. Adjust `timeout-minutes` upward to allow a full run, or trim your roster to fit within 60 minutes. See [Costs](costs.md) for runner-minute implications.
+
+## Vault Path in Global CLAUDE.md
+
+Replace `/mnt/c/Users/jonpaulboyd/Documents/knowledge-vault` with your vault path in your global `~/.claude/CLAUDE.md`. Also replace `corticalstack/knowledge-vault` with your GitHub remote.
 
 ## seen-urls.json
 
