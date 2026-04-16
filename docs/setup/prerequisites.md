@@ -1,5 +1,7 @@
 # Prerequisites
 
+> **Environment note:** This system was built on WSL2 (Ubuntu) under Windows 11. Steps are written for that environment. Most steps work identically on native Linux and macOS — platform-specific differences are noted where they exist.
+
 ## GitHub Repository
 
 You need a standard git repository pushed to GitHub. No special configuration is required beyond that, with one exception: both Actions (`vault-ingest` and `luminary-scan`) push commits back to the repository, so they need `contents: write` permission. This is declared at the top of each workflow YAML — GitHub-hosted runners honour it automatically.
@@ -48,11 +50,13 @@ Why it matters: Obsidian Git is one of two trigger mechanisms for `vault-ingest`
 
 ## Claude Code CLI Subscription
 
-Install the CLI:
+Install the CLI using the native installer (recommended — auto-updates in the background):
 
 ```bash
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 ```
+
+Alternatives: `brew install --cask claude-code` on macOS, or `winget install Anthropic.ClaudeCode` on Windows native. The `npm install -g @anthropic-ai/claude-code` method works but does not auto-update and is not the recommended approach for local installation. (The GitHub Actions workflows use npm internally because it is simpler in a CI environment — that is separate from your local install.)
 
 Both Actions invoke `claude -p` (headless/non-interactive mode) and authenticate via the `CLAUDE_CODE_OAUTH_TOKEN` secret. This is a **Claude Code subscription token**, not a raw Anthropic API key from console.anthropic.com — the distinction matters:
 
