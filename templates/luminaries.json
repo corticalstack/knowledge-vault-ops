@@ -1,0 +1,303 @@
+[
+  {
+    "name": "Andrej Karpathy",
+    "slug": "karpathy",
+    "twitter_handle": "karpathy",
+    "blog_url": "https://karpathy.github.io",
+    "focus": "neural nets, LLM tooling, engineering practice"
+  },
+  {
+    "name": "Yann LeCun",
+    "slug": "lecun",
+    "twitter_handle": "ylecun",
+    "blog_url": null,
+    "focus": "self-supervised learning, AI philosophy"
+  },
+  {
+    "name": "Geoffrey Hinton",
+    "slug": "hinton",
+    "twitter_handle": "geoffreyhinton",
+    "blog_url": null,
+    "focus": "deep learning, AI safety"
+  },
+  {
+    "name": "Ilya Sutskever",
+    "slug": "sutskever",
+    "twitter_handle": "ilyasut",
+    "blog_url": null,
+    "focus": "OpenAI research, AI safety"
+  },
+  {
+    "name": "Sam Altman",
+    "slug": "altman",
+    "twitter_handle": "sama",
+    "blog_url": "https://blog.samaltman.com",
+    "focus": "AGI product, OpenAI direction"
+  },
+  {
+    "name": "François Chollet",
+    "slug": "chollet",
+    "twitter_handle": "fchollet",
+    "blog_url": null,
+    "focus": "ARC-AGI, reasoning, anti-hype"
+  },
+  {
+    "name": "Sebastian Raschka",
+    "slug": "raschka",
+    "twitter_handle": "rasbt",
+    "blog_url": "https://sebastianraschka.com",
+    "focus": "practical ML, LLM engineering"
+  },
+  {
+    "name": "Peter Steinberger",
+    "slug": "steinberger",
+    "twitter_handle": "steipete",
+    "blog_url": "https://steipete.me",
+    "focus": "engineering leadership, tooling"
+  },
+  {
+    "name": "Rowan Cheung",
+    "slug": "cheung",
+    "twitter_handle": "rowancheung",
+    "blog_url": null,
+    "focus": "AI news, product launches, industry trends"
+  },
+  {
+    "name": "Linus Ekenstam",
+    "slug": "ekenstam",
+    "twitter_handle": "LinusEkenstam",
+    "blog_url": null,
+    "focus": "AI design, creative AI applications"
+  },
+  {
+    "name": "Aravind Srinivas",
+    "slug": "srinivas",
+    "twitter_handle": "AravSrinivas",
+    "blog_url": null,
+    "focus": "search, retrieval, Perplexity AI"
+  },
+  {
+    "name": "Logan Kilpatrick",
+    "slug": "kilpatrick",
+    "twitter_handle": "OfficialLoganK",
+    "blog_url": null,
+    "focus": "AI developer relations, Google AI Studio"
+  },
+  {
+    "name": "Fei-Fei Li",
+    "slug": "li",
+    "twitter_handle": "drfeifei",
+    "blog_url": null,
+    "focus": "computer vision, embodied AI, AI policy"
+  },
+  {
+    "name": "Gary Marcus",
+    "slug": "marcus",
+    "twitter_handle": "GaryMarcus",
+    "blog_url": "https://garymarcus.substack.com",
+    "focus": "AI skepticism, reasoning, hybrid AI"
+  },
+  {
+    "name": "Andrew Ng",
+    "slug": "ng",
+    "twitter_handle": "AndrewYNg",
+    "blog_url": "https://www.deeplearning.ai/the-batch/",
+    "focus": "ML education, AI applications, agentic AI"
+  },
+  {
+    "name": "Chris Olah",
+    "slug": "olah",
+    "twitter_handle": "ch402",
+    "blog_url": "https://transformer-circuits.pub",
+    "focus": "mechanistic interpretability, neural net circuits, features"
+  },
+  {
+    "name": "Ethan Mollick",
+    "slug": "mollick",
+    "twitter_handle": "emollick",
+    "blog_url": "https://www.oneusefulthing.org",
+    "focus": "AI and work, education, knowledge worker adoption"
+  },
+  {
+    "name": "Simon Willison",
+    "slug": "willison",
+    "twitter_handle": "simonw",
+    "blog_url": "https://simonwillison.net",
+    "focus": "practical LLM building, prompt injection, RAG, tool use"
+  },
+  {
+    "name": "Jeremy Howard",
+    "slug": "howard",
+    "twitter_handle": "jeremyphoward",
+    "blog_url": "https://www.fast.ai",
+    "focus": "hands-on DL, fast.ai, opinionated ML practice"
+  },
+  {
+    "name": "Paul Christiano",
+    "slug": "christiano",
+    "twitter_handle": "paulfchristiano",
+    "blog_url": "https://alignment.org",
+    "focus": "scalable oversight, RLHF, technical alignment research"
+  },
+  {
+    "name": "Yoshua Bengio",
+    "slug": "bengio",
+    "twitter_handle": "yoshuabengio",
+    "blog_url": "https://yoshuabengio.org",
+    "focus": "deep learning foundations, existential AI risk, governance"
+  },
+  {
+    "name": "Ben Thompson",
+    "slug": "thompson",
+    "twitter_handle": "benthompson",
+    "blog_url": "https://stratechery.com",
+    "focus": "AI business strategy, platform dynamics, model commoditization"
+  },
+  {
+    "name": "Nathan Lambert",
+    "slug": "lambert",
+    "twitter_handle": "natolambert",
+    "blog_url": "https://www.interconnects.ai",
+    "focus": "RLHF, post-training, alignment in practice, lab dynamics"
+  },
+  {
+    "name": "Swyx",
+    "slug": "swyx",
+    "twitter_handle": "swyx",
+    "blog_url": "https://www.swyx.io",
+    "focus": "AI engineering community, state of AI tooling, practitioner synthesis"
+  },
+  {
+    "name": "Dwarkesh Patel",
+    "slug": "patel",
+    "twitter_handle": "dwarkesh_sp",
+    "blog_url": "https://www.dwarkeshpatel.com",
+    "focus": "long-form AI interviews, research frontier, scaling history"
+  },
+  {
+    "name": "Boris Cherny",
+    "slug": "cherny",
+    "twitter_handle": "bcherny",
+    "blog_url": null,
+    "focus": "Claude Code, agentic coding, Anthropic product engineering"
+  },
+  {
+    "name": "Dario Amodei",
+    "slug": "amodei",
+    "twitter_handle": "DarioAmodei",
+    "blog_url": "https://darioamodei.com",
+    "focus": "Anthropic CEO, scaling, safety philosophy, AGI trajectory"
+  },
+  {
+    "name": "Amanda Askell",
+    "slug": "askell",
+    "twitter_handle": "amandaaskell",
+    "blog_url": null,
+    "focus": "RLHF, Claude character, alignment, AI values"
+  },
+  {
+    "name": "Alex Albert",
+    "slug": "albert",
+    "twitter_handle": "alexalbert__",
+    "blog_url": null,
+    "focus": "Anthropic developer relations, prompt engineering, Claude API"
+  },
+  {
+    "name": "Harrison Chase",
+    "slug": "chase",
+    "twitter_handle": "hwchase17",
+    "blog_url": null,
+    "focus": "LangChain, agentic patterns, tool use, orchestration"
+  },
+  {
+    "name": "Jerry Liu",
+    "slug": "liu",
+    "twitter_handle": "jerryjliu0",
+    "blog_url": null,
+    "focus": "LlamaIndex, RAG, document pipelines, structured retrieval"
+  },
+  {
+    "name": "Greg Kamradt",
+    "slug": "kamradt",
+    "twitter_handle": "GregKamradt",
+    "blog_url": "https://www.gregkamradt.com",
+    "focus": "chunking strategies, context windows, practical LLM engineering"
+  },
+  {
+    "name": "Hamel Husain",
+    "slug": "husain",
+    "twitter_handle": "HamelHusain",
+    "blog_url": "https://hamel.dev",
+    "focus": "LLM evals, fine-tuning, production ML pipelines"
+  },
+  {
+    "name": "Shreya Shankar",
+    "slug": "shankar",
+    "twitter_handle": "sh_reya",
+    "blog_url": "https://www.shreya-shankar.com",
+    "focus": "ML engineering, data quality for LLMs, production model behavior"
+  },
+  {
+    "name": "Eugene Yan",
+    "slug": "yan",
+    "twitter_handle": "eugeneyan",
+    "blog_url": "https://eugeneyan.com",
+    "focus": "applied ML, RAG, reranking, agents at scale"
+  },
+  {
+    "name": "Thorsten Ball",
+    "slug": "ball",
+    "twitter_handle": "thorstenball",
+    "blog_url": "https://thorstenball.com",
+    "focus": "agentic coding verification, agent correctness, Sourcegraph"
+  },
+  {
+    "name": "Lee Robinson",
+    "slug": "robinson",
+    "twitter_handle": "leeerob",
+    "blog_url": "https://leerob.com",
+    "focus": "autonomous coding agents, Vercel, AI-native dev tooling"
+  },
+  {
+    "name": "Riley Goodside",
+    "slug": "goodside",
+    "twitter_handle": "goodside",
+    "blog_url": null,
+    "focus": "prompt engineering research, model behavior edge cases, Scale AI"
+  },
+  {
+    "name": "Matt Shumer",
+    "slug": "shumer",
+    "twitter_handle": "mattshumer_",
+    "blog_url": null,
+    "focus": "agentic AI, HyperWrite, deployable agent architectures"
+  },
+  {
+    "name": "Gergely Orosz",
+    "slug": "orosz",
+    "twitter_handle": "GergelyOrosz",
+    "blog_url": "https://blog.pragmaticengineer.com",
+    "focus": "AI impact on software engineering, engineering culture, pragmatic takes"
+  },
+  {
+    "name": "Kevin Roose",
+    "slug": "roose",
+    "twitter_handle": "kevinroose",
+    "blog_url": null,
+    "focus": "Claude Code adoption, AI mainstream narrative, NYT tech"
+  },
+  {
+    "name": "Jason Fried",
+    "slug": "fried",
+    "twitter_handle": "jasonfried",
+    "blog_url": "https://world.hey.com/jason",
+    "focus": "AI psychology, product philosophy, contrarian takes on automation"
+  },
+  {
+    "name": "David Hershey",
+    "slug": "hershey",
+    "twitter_handle": "david_hershey",
+    "blog_url": null,
+    "focus": "MCP protocol, Claude tool integrations, Anthropic research"
+  }
+]
