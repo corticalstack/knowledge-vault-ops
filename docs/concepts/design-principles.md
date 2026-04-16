@@ -25,3 +25,5 @@ graphify identifies domain structure: which concepts cluster together, which nod
 ## See Also
 
 - [LLM Wiki Pattern](llm-wiki-pattern.md)
+- [graphify](../reference/graphify.md)
+- [Agent Memory System](../reference/agent-memory.md)
