@@ -201,7 +201,7 @@ The scan applies four filters before writing any inbox file:
 
 Each luminary's results are committed and pushed immediately after processing — not accumulated into a single batch push at the end of the scan.
 
-The reason is the downstream cascade. vault-ingest is triggered by pushes that touch inbox paths. It processes new inbox files in the diff between the current commit and `HEAD~1`. If all 43 luminaries committed at once and pushed once, vault-ingest would need to process up to 43 inbox files in a single run, which risks timing out and produces a single opaque commit attributing the entire capture batch to one push event.
+The reason is the downstream cascade. vault-ingest is triggered by pushes that touch inbox paths. It uses `find` to locate all inbox files currently present in the repository (not a git diff) — anything that exists at `*/_inbox/*.md` is processed and then deleted, so accumulation is not an issue. However, if all 43 luminaries committed at once and pushed once, vault-ingest would need to process up to 43 inbox files in a single triggered run, which risks timing out and produces a single opaque commit attributing the entire capture batch to one push event.
 
 Per-luminary push means:
 
@@ -242,14 +242,14 @@ if: github.actor != 'github-actions[bot]'
 
 This condition prevents luminary-scan from re-triggering on its own pushes. When Claude commits and pushes per-luminary results, the actor on those pushes is `github-actions[bot]`. Without this guard, each push would trigger a new scan run, creating an infinite loop.
 
-**Contrast with vault-ingest's guard mechanism.** vault-ingest uses a commit-message-based guard: it skips processing when the triggering commit message matches the prefix `vault-ingest:` (or similar bot-authored patterns). It cannot use an actor-based guard because it needs to process pushes made by `github-actions[bot]` — those are exactly the per-luminary pushes from luminary-scan that carry inbox files.
+**Contrast with vault-ingest's guard mechanism.** vault-ingest uses a commit-message-based guard — `!startsWith(github.event.head_commit.message, 'ingest:')` — it skips processing when the triggering commit message starts with `ingest:`. It cannot use an actor-based guard because it needs to process pushes made by `github-actions[bot]` — those are exactly the per-luminary pushes from luminary-scan that carry inbox files.
 
 The two guards are deliberately different and complementary:
 
 | Action | Guard type | Allows through | Blocks |
 |---|---|---|---|
 | luminary-scan | Actor-based (`github.actor != 'github-actions[bot]'`) | Human pushes, `workflow_dispatch` | Bot's own per-luminary pushes |
-| vault-ingest | Commit-message-based | Bot pushes carrying inbox files | Bot's own wiki-update commits |
+| vault-ingest | Commit-message-based (`!startsWith(msg, 'ingest:')`) | Bot pushes with `scan(...)` commits | Bot's own `ingest:` wiki-update commits |
 
 This asymmetry is required: luminary-scan pushes under the `github-actions[bot]` identity and must trigger vault-ingest; vault-ingest must not re-trigger itself on its own wiki commits.
 
