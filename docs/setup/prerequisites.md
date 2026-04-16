@@ -65,7 +65,7 @@ Both Actions invoke `claude -p` (headless/non-interactive mode) and authenticate
 
 See [Costs](costs.md) for what this system would cost if you substituted a raw API key.
 
-**How to get the token**: run `claude setup-token` in your terminal. It opens a browser for OAuth authorisation and then prints a one-year token to stdout. Copy that token and add it as the `CLAUDE_CODE_OAUTH_TOKEN` repository secret (see Required GitHub Secrets below). Requires a Pro, Max, Team, or Enterprise Claude subscription.
+**How to get the token**: run `claude setup-token` in your terminal (or follow the prompts from `/install-github-app` if you are inside an active Claude Code session). The flow opens a browser, asks you to approve the GitHub App, then takes you to an Anthropic URL where the token is generated. Copy it and paste it back into the CLI to complete the setup, then add that same token as the `CLAUDE_CODE_OAUTH_TOKEN` repository secret (see Required GitHub Secrets below). Requires a Pro, Max, Team, or Enterprise Claude subscription.
 
 ## Required GitHub Secrets
 
