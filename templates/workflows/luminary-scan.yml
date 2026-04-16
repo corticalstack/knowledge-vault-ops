@@ -1,0 +1,154 @@
+name: Luminary Scan
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # 23:00 UTC = midnight CET (UTC+1)
+  workflow_dispatch:         # manual trigger for testing
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.actor != 'github-actions[bot]'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4
+        with:
+          token: ${{ secrets.VAULT_PAT }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Set date variables
+        run: |
+          echo "SCAN_TODAY=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+          echo "SCAN_YESTERDAY=$(date -d 'yesterday' +%Y-%m-%d)" >> $GITHUB_ENV
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run luminary scan
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude -p "
+          You are running the nightly luminary scan for the knowledge vault.
+          Today is $SCAN_TODAY. Yesterday was $SCAN_YESTERDAY.
+
+          SETUP:
+          1. Read luminary-scan/luminaries.json — this is your list of luminaries.
+          2. Read luminary-scan/seen-urls.json — these are URLs already ingested; do not re-ingest them.
+
+          FOR EACH LUMINARY in the list, in order, do all of the following:
+
+          --- SEARCH ---
+          Find content AUTHORED BY this luminary and published on $SCAN_YESTERDAY.
+          Only capture content this person wrote themselves — not articles about them, not
+          content that merely mentions them. Search across:
+          - X/Twitter: search 'site:x.com/{twitter_handle} $SCAN_YESTERDAY' or 'from:{twitter_handle} since:$SCAN_YESTERDAY'
+          - Blog: if blog_url is not null, fetch that URL and look for posts dated $SCAN_YESTERDAY
+          - Hacker News: search '{name} site:news.ycombinator.com $SCAN_YESTERDAY' — only keep items with a visible score of 200 or more
+          - arXiv: search '{name} arxiv $SCAN_YESTERDAY'
+          - Papers With Code: check for papers by this person trending on $SCAN_YESTERDAY
+          - Hugging Face blog: search for posts by or about this person dated $SCAN_YESTERDAY
+
+          --- FILTER ---
+          For each result URL:
+          - Skip if the URL is already in seen-urls.json
+          - Skip if you cannot confirm the content was published on or after $SCAN_YESTERDAY
+          - Skip if it is a repost, retweet of someone else, pure product announcement, or marketing copy
+
+          --- JUDGE NOVELTY ---
+          For each candidate that passed the filter, extract the key concept or idea, then run:
+            grep -ril '<concept-keywords>' . --include='*.md' | grep -v '_inbox\|\.github\|docs/superpowers\|luminary-scan' | head -10
+          Interpret the results:
+          - 3 or more strong matches: skip — already well-covered in the vault
+          - 1-2 partial matches: enrichment candidate — note which existing page(s) to enrich
+          - 0 matches: new concept candidate
+
+          --- CAPTURE ---
+          If the concept clears the signal threshold, do all of these steps:
+
+          a. Determine the vault domain:
+             AI       — ML concepts, models, research techniques, AI tools, prompting methods
+             Cloud    — infrastructure, platforms, cloud services, deployment patterns
+             Data     — data engineering, pipelines, analytics, databases
+             Engineering — software practices, tooling, architecture patterns, developer workflows
+             Homelab  — hardware, self-hosting, home infrastructure
+
+          b. Research the concept: expand on what makes it novel, how it contrasts with existing vault
+             content, and which existing vault pages it connects to.
+
+          c. Write the inbox file to {Domain}/_inbox/$SCAN_YESTERDAY-{slug}-{concept-slug}.md
+             where {slug} is the luminary's slug field from luminaries.json.
+
+             Use EXACTLY this format for the inbox file (include the # title line and all sections):
+
+          # {Concept Title}
+
+          sources:
+          - {primary URL — the post/tweet that triggered the capture}
+          - {any additional URLs followed during research, e.g. linked blog post, arXiv paper, HN thread}
+          luminary: {Full Name}
+          date: $SCAN_YESTERDAY
+          domain: {AI|Cloud|Data|Engineering|Homelab}
+          capture_type: {new_concept|enrichment}
+          enriches: [[Page Name]]
+          origin: luminary-scan
+
+          ## Summary
+
+          {2-3 sentences capturing the core idea in plain language}
+
+          ## Key Points
+
+          - {key point}
+          - {key point}
+          - {key point}
+
+          ## Connections
+
+          - [[Existing Vault Page]] — {brief reason for the connection}
+
+          ## Source Quote / Key Excerpt
+
+          > {Direct quote or close paraphrase from the original source}
+
+          Note: if capture_type is new_concept, omit the 'enriches:' line entirely.
+
+          --- AFTER EACH LUMINARY (always do this, even if nothing was captured) ---
+          1. Read luminary-scan/seen-urls.json
+          2. Append all source URLs from the inbox file's sources: list to the JSON array
+          3. Write the updated array back to luminary-scan/seen-urls.json
+          4. Stage ONLY the current luminary's files and seen-urls.json — never use git add -A:
+               git add luminary-scan/seen-urls.json
+               git add AI/_inbox/$SCAN_YESTERDAY-{slug}-*.md Cloud/_inbox/$SCAN_YESTERDAY-{slug}-*.md Data/_inbox/$SCAN_YESTERDAY-{slug}-*.md Engineering/_inbox/$SCAN_YESTERDAY-{slug}-*.md Homelab/_inbox/$SCAN_YESTERDAY-{slug}-*.md 2>/dev/null || true
+               git commit -m 'scan({slug}): {one-line summary of what was captured, or \"no signal\"}'
+          5. Push immediately so vault-ingest picks up this luminary's inbox file:
+               git pull --rebase origin main
+               git push
+
+          When all luminaries in the list have been processed: stop. Do not do anything else.
+          " --dangerously-skip-permissions
+
+      # Safety net: Claude pushes after each luminary within the session so vault-ingest
+      # picks up each luminary's inbox files individually via its find-based detection.
+      # This step catches any commits Claude couldn't push due to transient errors.
+      - name: Push any remaining commits
+        run: |
+          git pull --rebase origin main
+          git push
