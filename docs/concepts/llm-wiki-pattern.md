@@ -4,7 +4,7 @@
 
 In a traditional note-taking workflow, knowledge accumulates as raw fragments: meeting notes, article excerpts, quick captures, half-finished summaries. When you later ask an LLM a question over that corpus, the model searches, retrieves those fragments, and re-derives relationships at query time — every single time. Cross-references are never stored. Contradictions are never surfaced and resolved. Synthesis is always a one-off artefact, discarded at the end of the context window.
 
-The wiki pattern — inspired by Andrej Karpathy's framing of LLMs as knowledge compilers — inverts this. Instead of deferring synthesis to query time, an LLM incrementally compiles raw sources into structured, interlinked pages. Relationships between concepts are computed once and written down. Contrasts, prerequisites, and summaries are baked into the page itself, not reconstructed on demand. A question answered by reading a well-formed wiki page is answered faster and with more fidelity than the same question answered by re-examining the pile of sources it was compiled from.
+The wiki pattern — inspired by Andrej Karpathy's writing on building a personal wiki with LLMs — inverts this. Instead of deferring synthesis to query time, an LLM incrementally compiles raw sources into structured, interlinked pages. Relationships between concepts are computed once and written down. Contrasts, prerequisites, and summaries are baked into the page itself, not reconstructed on demand. A question answered by reading a well-formed wiki page is answered faster and with more fidelity than the same question answered by re-examining the pile of sources it was compiled from.
 
 ## Why It Matters for Agents
 
