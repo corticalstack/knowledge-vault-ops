@@ -120,3 +120,26 @@ Current: **AI · Cloud · Data · Engineering · Homelab**
 To add a new domain: create top-level directory + `_INDEX.md` + `_inbox/` + entry
 in vault `_INDEX.md` + add to this list. Propose a new domain when a captured
 concept fits none of the above.
+
+## References/ — persistent knowledge assets (not a wiki domain)
+
+`References/` at the vault root holds full-fidelity, hand-authored knowledge assets —
+extensive architecture notes, exam / certification study material, long-form guides.
+
+**Never touch `References/` during ingestion, compilation, or reorganisation:**
+- `vault-ingest` does not fire on it (its path filter is `*/_inbox/**`)
+- `verify-wiki.py` does not walk it (only validates `Domain/category/*.md`)
+- Day-0 reorganise and category prompts list it under LEAVE UNTOUCHED
+- No schema requirements, no frontmatter rules, no section rules — user's structure, user's voice
+
+**When to put content here instead of `_inbox/`:**
+- The markdown is itself the deliverable, not capture-material for the wiki
+- The doc's linear narrative would be lost if shattered into atomic wiki pages
+- The content contains images, tables, diagrams, or code blocks that must survive verbatim
+
+**Cross-linking is fine in both directions:** wiki pages can `[[References/...]]` and
+reference docs can `[[Large Language Model]]` wiki pages. Backlinks work as usual.
+
+**Extracting concepts to the wiki:** if a reference doc contains concepts that deserve
+wiki pages, create atomic inbox files in the relevant `Domain/_inbox/` with a citation
+pointing to the reference doc. The reference doc itself stays intact.
