@@ -63,7 +63,7 @@ For domain wiki inbox files, use this schema exactly:
 ```yaml
 ---
 sources:
-- <url or "session capture" or "References/doc.md">
+- <url, "session capture", or [[doc-filename]] for vault-internal paths>
 luminary: null
 date: YYYY-MM-DD
 domain: <AI|Cloud|Data|Engineering|Homelab>
@@ -242,7 +242,7 @@ Stop here and wait for the user's selection.
 
 **Step 4 — Generate inbox files**
 
-For each approved concept, write an inbox file to `{Domain}/_inbox/YYYY-MM-DD-{slug}.md` using the capture schema above. Set `sources: [References/{doc-name}.md]` and `origin: manual`.
+For each approved concept, write an inbox file to `{Domain}/_inbox/YYYY-MM-DD-{slug}.md` using the capture schema above. Set `sources: ['[[{doc-filename-without-extension}]]']` and `origin: manual`. Wikilink form (not bare path) so the rendered `## Sources` section in the resulting wiki page is clickable in Obsidian — auto-resolution finds the file by filename anywhere in the vault.
 
 **Step 5 — Commit and push**
 
@@ -363,7 +363,7 @@ git -C {vault-path} commit -m "fix: wiki integrity errors"
 ```yaml
 ---
 sources:
-- <url | "session capture" | "References/doc.md">
+- <url | "session capture" | '[[doc-filename]]' for vault-internal paths>
 luminary: null
 date: YYYY-MM-DD
 domain: <AI|Cloud|Data|Engineering|Homelab>
@@ -376,6 +376,8 @@ origin: <manual|luminary-scan>
 ## Connections
 ## Source Quote / Key Excerpt
 ```
+
+**Sources format:** vault-internal references (anything under `References/`, `processed/`, etc.) must be written as Obsidian wikilinks `[[filename]]` (no path, no `.md` extension) so the rendered `## Sources` section in the resulting wiki page is a clickable link. Bare paths render as plain text and break navigation. URLs and `"session capture"` stay as-is. Auto-resolution finds the file by filename anywhere in the vault — keep Reference filenames specific enough to avoid collisions.
 
 ## Reference: wiki page schema
 
