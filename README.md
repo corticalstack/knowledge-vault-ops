@@ -105,10 +105,11 @@ Domain/
 ├── {category}/                      — wiki pages live here
 ├── _inbox/                          — ingestion queue
 ├── _INDEX.md                        — domain entry point
+├── _review.md                       — LLM-maintained queue: ambiguous edges, contradictions, merge decisions
 ├── wiki-recent.base                 — Obsidian view: all pages by updated date
 ├── wiki-stubs.base                  — source_count ≤ 1
 ├── wiki-mature.base                 — source_count ≥ 3
-└── wiki-review.base                 — pages flagged for review
+└── wiki-review.base                 — Obsidian view: pages flagged for review
 ```
 
 **Valid category subdirectories per domain:**
