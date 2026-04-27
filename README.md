@@ -675,6 +675,19 @@ Everything else can be copied verbatim from [`templates/`](templates/).
 
 **Vault path in global `CLAUDE.md`.** Replace `/mnt/c/Users/jonpaulboyd/Documents/knowledge-vault` with your vault path in your `~/.claude/CLAUDE.md`. Also replace `corticalstack/knowledge-vault` with your GitHub remote.
 
+**Working across multiple machines.** The vault works on as many machines as you like — GitHub is the single source of truth, each machine is just a working copy.
+
+What each machine needs:
+- A local clone of the vault repo at whatever path suits that machine: `git clone git@github.com:you/knowledge-vault /path/to/vault`
+- Its own `~/.claude/CLAUDE.md` from [`templates/global-claude.md`](templates/global-claude.md) with that machine's local vault path — this is the only thing that differs between machines
+- Claude Code installed
+- `~/.claude/skills/vault/SKILL.md` copied from [`templates/vault-skill.md`](templates/vault-skill.md)
+- Git configured with SSH access to the GitHub repo
+
+How sync works: every session starts with `git pull --ff-only --quiet` so whichever machine you pick up on, it's current before any work begins. Every capture commits and pushes to GitHub; vault-ingest compiles on GitHub and pushes the wiki page back; the next pull on any machine brings it down.
+
+Remote servers (no Obsidian): the vault works identically over SSH — captures commit and push the same way, vault-ingest fires on GitHub. You just won't have the Obsidian graph view. Clone the repo, set up `~/.claude/CLAUDE.md` with the server-side path, and all `/vault` sub-commands work as normal.
+
 **seen-urls.json.** Initialise as an empty JSON array at `luminary-scan/seen-urls.json`. The Action reads and appends after each luminary.
 
 ### Costs
