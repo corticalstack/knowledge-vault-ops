@@ -511,6 +511,7 @@ The vault's integrity checker. Walks every `domain/category/` subdirectory and v
 - **Wikilink resolution** — every wikilink in `related:`, `builds_on:`, `contrasts_with:`, `appears_in:` must resolve to a real wiki page.
 - **Bidirectional reciprocal** — every `related:` entry must be reciprocated. `builds_on:` and `contrasts_with:` are one-directional and not checked.
 - **Required body sections** — all four headings must be present, literal string match.
+- **Sources format** — bullets in `## Sources` that look like vault-internal `.md` paths (any token containing `/` and ending in `.md`, after stripping URLs / wikilinks / markdown links / code spans) must be wrapped as `[[filename]]`, a markdown link, or a code span. Bare paths render as plain text in Obsidian and break navigation.
 
 **When to run:** after every batch of wiki page writes, before committing. `vault-ingest` runs it automatically after every ingestion cycle.
 
@@ -530,7 +531,7 @@ Cloud/services/Azure OpenAI.md: type 'concept' invalid for domain 'Cloud'
 
 **How vault-ingest uses it:** if errors are reported, vault-ingest commits partial changes and opens a GitHub issue titled `"Vault ingest errors: {inbox file}"` listing the specific failures. This surfaces errors for manual review rather than letting bad state accumulate.
 
-**Location:** `scripts/verify-wiki.py` in the vault root. It hardcodes the domain names and valid category/type mappings for this particular vault layout — if you replicate with different domains, edit those mappings. For this reason it is not a template to copy unchanged.
+**Location:** `scripts/verify-wiki.py` in the vault root. A starter template is at [`templates/verify-wiki.py`](templates/verify-wiki.py) — copy it into your vault then edit the `DOMAINS` dict (top of the file) to match your top-level domains and their valid types/categories. The structural checks (frontmatter completeness, bidirectional reciprocity, required body sections, bare-path Sources detection) work unchanged across vaults; only the domain map is per-vault.
 
 ---
 
@@ -633,11 +634,14 @@ Steps 4, 6, 8, and 9 run **from your vault root**. All other steps run from wher
 
 8. **Run the category finalisation prompt.** Once you have a representative sample of pages in each domain (ideally ≥3 per intended category), paste [`templates/day-zero-categories-prompt.md`](templates/day-zero-categories-prompt.md) into a Claude Code session from vault root. The prompt runs in two phases: Phase 1 observes what category folders emerged and proposes a final list, writing `categories-proposal.md`. Phase 2 (after you reply `apply`) rewrites the `Valid types:` line in vault `CLAUDE.md` and the `DOMAINS` dict in `scripts/verify-wiki.py` to match. Both files enforce the category list — do this before regular `vault-ingest` operation begins or new pages will land in nonexistent folders.
 
-9. **Run `verify-wiki.py` after each batch** (from vault root — the script is vault-specific and lives in the vault, not in this repo):
+9. **Install and run `verify-wiki.py` after each batch.** Copy the template into your vault, edit the `DOMAINS` dict to match your top-level domains and valid types/categories (the structural checks work unchanged across vaults; only the domain map is per-vault):
    ```bash
+   cp templates/verify-wiki.py /path/to/your-vault/scripts/verify-wiki.py
+   # Edit /path/to/your-vault/scripts/verify-wiki.py — adjust DOMAINS dict at the top.
+   # Then, from vault root:
    python3 scripts/verify-wiki.py
    ```
-   Fix all errors before committing.
+   The category finalisation prompt in step 8 already rewrites this dict if you used the day-zero flow; this step is the manual fallback. Fix all errors before committing.
 
 10. **Add global `CLAUDE.md` blocks** to your `~/.claude/CLAUDE.md`. Start from [`templates/global-claude.md`](templates/global-claude.md) — replace `/path/to/your-vault` with your vault path and `your-github-username/your-vault-repo` with your remote (see **CLAUDE.md conventions** above). For any other repos where you want Claude to capture to the vault, drop a personalised copy of [`templates/per-repo-claude.md`](templates/per-repo-claude.md) into that repo's root.
 
@@ -727,6 +731,7 @@ A vault with 1–2 inbox drops per day plus one nightly scan uses ~90–120 minu
 | [`templates/day-zero-reorganise-prompt.md`](templates/day-zero-reorganise-prompt.md) | n/a (built for this repo) | Day-0 prompt to reorganise a flat vault into top-level domain folders |
 | [`templates/day-zero-categories-prompt.md`](templates/day-zero-categories-prompt.md) | n/a (built for this repo) | Day-0 prompt to finalise per-domain category taxonomy into `CLAUDE.md` and `verify-wiki.py` |
 | [`templates/add_frontmatter.py`](templates/add_frontmatter.py) | vault `docs/scripts/add_frontmatter.py` | Day-0 frontmatter stamping script |
+| [`templates/verify-wiki.py`](templates/verify-wiki.py) | vault `scripts/verify-wiki.py` | Wiki integrity checker — copy then edit `DOMAINS` dict for your domains/categories |
 | [`templates/luminaries.json`](templates/luminaries.json) | vault `luminary-scan/luminaries.json` | 43-entry luminary roster (edit to taste) |
 | [`templates/workflows/vault-ingest.yml`](templates/workflows/vault-ingest.yml) | vault `.github/workflows/vault-ingest.yml` | Drop into `.github/workflows/` in your vault |
 | [`templates/workflows/luminary-scan.yml`](templates/workflows/luminary-scan.yml) | vault `.github/workflows/luminary-scan.yml` | Drop into `.github/workflows/` in your vault |
