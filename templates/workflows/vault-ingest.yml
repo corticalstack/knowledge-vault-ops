@@ -118,6 +118,15 @@ jobs:
                  ## See Also
                  ## Sources
              - Existing concept: edit that page, bump source_count, extend body, add links
+             IMAGE PRESERVATION RULE: When the inbox source contains
+             `![[Pasted image YYYYMMDDHHMMSS.png]]` embeds (Obsidian-style image
+             references) and you are keeping the surrounding text, preserve those
+             embeds verbatim in the resulting wiki page. Images live in `Assets/`
+             at the vault root and Obsidian resolves the refs automatically. Do
+             not strip image embeds when their accompanying text is being kept;
+             diagrams/screenshots are often the most information-dense part of
+             the source. Only drop an embed if you are also dropping the text it
+             illustrates.
              YAML EDITING RULE: Never parse and re-serialize frontmatter with a YAML
              library. Use raw text/regex manipulation or targeted line edits only.
              yaml.safe_load followed by re-serialization corrupts builds_on and
