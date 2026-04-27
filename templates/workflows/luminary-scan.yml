@@ -138,7 +138,7 @@ jobs:
                git add luminary-scan/seen-urls.json
                git add AI/_inbox/$SCAN_YESTERDAY-{slug}-*.md Cloud/_inbox/$SCAN_YESTERDAY-{slug}-*.md Data/_inbox/$SCAN_YESTERDAY-{slug}-*.md Engineering/_inbox/$SCAN_YESTERDAY-{slug}-*.md Homelab/_inbox/$SCAN_YESTERDAY-{slug}-*.md 2>/dev/null || true
                git commit -m 'scan({slug}): {one-line summary of what was captured, or \"no signal\"}'
-          5. Push immediately so vault-ingest picks up this luminary's inbox file:
+          5. Push immediately so vault-ingest can pick up this luminary's inbox file:
                git pull --rebase origin main
                git push
 

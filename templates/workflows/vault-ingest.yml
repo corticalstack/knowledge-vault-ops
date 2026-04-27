@@ -17,6 +17,13 @@ permissions:
   issues: write
   id-token: write
 
+# Serialize ingest runs so two concurrent triggers (e.g. rapid per-luminary
+# pushes from luminary-scan) cannot race and produce add/add conflicts when
+# both try to push back to main.
+concurrency:
+  group: vault-ingest
+  cancel-in-progress: false
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -32,7 +39,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+
+      - name: Pull latest before ingest
+        run: |
+          git pull --rebase origin main || true
 
       - name: Identify pending inbox files
         id: inbox
@@ -146,5 +157,14 @@ jobs:
       - name: Push ingested changes
         if: steps.inbox.outputs.skip != 'true'
         run: |
-          git pull --rebase origin main
-          git push
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main && git push; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 5))
+          done
+          echo "Push failed after 3 attempts — ingest commits remain local to the runner"
+          exit 1
