@@ -17,9 +17,11 @@ permissions:
   issues: write
   id-token: write
 
-# Serialize ingest runs so two concurrent triggers (e.g. rapid per-luminary
-# pushes from luminary-scan) cannot race and produce add/add conflicts when
-# both try to push back to main.
+# Concurrency: with cancel-in-progress: false, a running job is preserved AND
+# only one pending job is kept per group (newer pushes cancel older pending
+# runs). Safe because the inbox detection step below uses `find`, not git diff
+# — whichever run executes processes every file currently in the inboxes,
+# including any from cancelled pending pushes. Trigger collapsing, not loss.
 concurrency:
   group: vault-ingest
   cancel-in-progress: false
