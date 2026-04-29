@@ -405,6 +405,7 @@ The global `CLAUDE.md` makes Claude vault-aware everywhere. The vault `CLAUDE.md
 |---|---|
 | `/vault capture [concept]` | Write inbox file with correct schema, commit, push |
 | `/vault compile <path-or-url>` | Turn a raw note into a full wiki page end-to-end |
+| `/vault reference [description-or-path-or-url]` | Place a verbatim source doc into the right `References/` subfolder (no schema, no rewriting) |
 | `/vault extract <reference-path>` | Propose + generate inbox files from a reference doc |
 | `/vault bootstrap` | Draft `context.md` + `patterns.md` for current repo |
 | `/vault verify` | Run `verify-wiki.py` and fix every error class |
@@ -445,6 +446,22 @@ Turn a raw note file or URL into a complete wiki page end-to-end: reads the sour
 /vault compile AI/_inbox/2026-04-26-rag-notes.md
 /vault compile https://example.com/paper-on-rlhf
 ```
+
+---
+
+#### `/vault reference [description-or-path-or-url]`
+
+Place a **verbatim, full-fidelity** source document into the right `References/` subfolder. For operational runbooks, exam notes, vendor docs, talk transcripts, or session-process captures that must be preserved as-is. The skill finds the right subfolder (proposes a new one if needed), proposes a filename, stops for your confirmation, then writes the doc with **no frontmatter, no schema, no summarisation** — preservation is the point.
+
+The pipeline is `References/` (verbatim) → `extract` (proposes concepts) → `_inbox/` (lossy capture) → wiki page (lossy compile). Downstream stages are lossy by design; the reference doc itself stays full-fidelity. `vault-ingest` deliberately ignores `References/` so these docs never get rewritten.
+
+```
+/vault reference https://example.com/azure-foundry-docs
+/vault reference ~/Downloads/AZ-400-study-notes.md
+/vault reference "the process from this session"   # composes from session context
+```
+
+After placement, the skill optionally offers `/vault extract References/...` to mine concepts into the wiki.
 
 ---
 
