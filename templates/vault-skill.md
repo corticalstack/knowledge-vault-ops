@@ -1,6 +1,6 @@
 ---
 name: vault
-description: Work with the knowledge vault — capture concepts, compile notes into wiki pages, extract from reference docs, bootstrap repos, verify integrity
+description: Work with the knowledge vault — capture concepts, compile notes, place verbatim references, extract concepts, bootstrap repos, verify integrity
 trigger: /vault
 ---
 
@@ -17,6 +17,7 @@ Infer the operation from how the skill is invoked. If no sub-command is given, s
 | `/vault` | Show menu — ask which operation |
 | `/vault capture [concept or description]` | → **Capture** |
 | `/vault compile <path-or-url>` | → **Compile** |
+| `/vault reference [description-or-path-or-url]` | → **Reference** |
 | `/vault extract <reference-path>` | → **Extract** |
 | `/vault bootstrap` | → **Bootstrap** |
 | `/vault verify` | → **Verify** |
@@ -32,6 +33,7 @@ Present this and ask the user to choose:
 
   capture   Write a concept or session finding to the vault inbox
   compile   Turn a raw note or URL into a wiki page
+  reference Place a verbatim source doc into the right References/ subfolder
   extract   Pull concepts from a reference doc into the wiki
   bootstrap Initialise this repo's context in the vault
   verify    Run verify-wiki.py and fix all reported errors
@@ -197,6 +199,68 @@ If the source was an inbox file, delete it — the citation lives in `## Sources
 git -C {vault-path} add -A
 git -C {vault-path} commit -m "ingest: {page title}"
 ```
+
+---
+
+## Operation: reference
+
+Place a **verbatim, full-fidelity** document into the right `References/` subfolder. Used for source material that must be preserved as-is — operational runbooks, exam notes, vendor docs, talk transcripts, captured session processes. The pipeline is `References/` (verbatim) → `extract` (proposes concepts) → `_inbox/` (lossy capture) → wiki page (lossy compile). Downstream is lossy by design; the reference doc itself stays full-fidelity.
+
+**Step 1 — Identify the source content**
+
+The argument can be:
+- A local file path → read it verbatim.
+- A URL → fetch and use the page's main content verbatim.
+- An inline description like "the process from this session" → compose the verbatim doc from session context, preserving **every command, every error message, every gotcha, every operational nuance** in the order they were observed. No summarisation.
+
+**Step 2 — Find the right subfolder**
+
+```bash
+find {vault-path}/References -maxdepth 3 -type d
+```
+
+Match the doc's topic against the existing tree:
+- Cloud platform docs → `References/Azure/`, `References/AWS/`, etc.
+- Specific certs / products / books → existing subfolders like `Azure/AZ-104/`, `Books/{Title}/`
+- Topic that doesn't fit anywhere → propose a **new subfolder** under the most relevant parent (e.g. `References/Azure/Foundry/`).
+
+**Step 3 — Propose subfolder + filename, then stop**
+
+Present:
+
+```
+Reference doc placement proposal:
+
+Subfolder: References/{Parent}/{Subfolder}    (existing | NEW)
+Filename:  {Doc Title}.md
+Content:   {one-line description; ~N words}
+
+Confirm to proceed, or reply with a different subfolder/filename.
+```
+
+Stop and wait for the user's confirmation. Re-propose if they want changes.
+
+**Step 4 — Write the verbatim content**
+
+- **No frontmatter, no schema, no summarisation** — preserve the source exactly. Schema lives downstream in `_inbox/` and wiki pages, not here.
+- Filename should be human-readable (Title Case, spaces allowed) to match existing References naming (e.g. `AZ-204 Notes.md`, `Git cheatsheet.md`).
+- If a doc with this filename already exists in the target subfolder, stop and ask: overwrite, append, or rename?
+- For session captures: include the user's actual commands, exact error messages, the diagnostic dialogue, the resolution path. Future-you reading this should be able to re-execute the process verbatim without consulting any other source.
+
+**Step 5 — Commit and push**
+
+```bash
+git -C {vault-path} add -A
+git -C {vault-path} commit -m "reference: {doc title}"
+git -C {vault-path} push
+```
+
+vault-ingest does **not** auto-process `References/` files — they are intentionally a flat archive. Concepts move out via the `extract` operation when the user is ready.
+
+**Step 6 — Confirm and offer follow-up**
+
+Report: filename, subfolder, commit hash. Then optionally offer:
+> Want me to run `/vault extract References/{path}` now to pull concepts to the wiki?
 
 ---
 
