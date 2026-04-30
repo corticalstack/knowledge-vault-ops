@@ -1,6 +1,6 @@
 # knowledge-vault-ops
 
-A reference for how my knowledge-vault system was built, and all the templates needed to replicate it from scratch.
+A reference for how my very much opinionated knowledge-vault system was built, and all the templates needed to replicate it from scratch.
 
 ---
 
@@ -128,11 +128,11 @@ These names are not arbitrary — `verify-wiki.py` uses them to validate that ea
 
 ### References/ — persistent knowledge assets alongside the wiki
 
-The wiki is not the only home for knowledge. Some content does not fit the compile-and-rewrite model: long-form architecture notes, exam / certification study material, extensive playbooks, documents with many diagrams and images. Feeding these through `vault-ingest` would shatter the linear narrative, strip attachments, and rewrite hand-crafted prose into the wiki voice — information loss by design, not a bug.
+The wiki is not the only home for knowledge. Some content does not fit the compile-and-rewrite model: long-form architecture notes, exam / certification study material, extensive playbooks, documents with many diagrams and images. Feeding these through `vault-ingest` would break the linear narrative, strip attachments, and rewrite hand-crafted prose into the wiki voice — information loss by design, not a bug.
 
 `References/` at the vault root is the answer. It is a sibling to the wiki domains, not part of them:
 
-- **Full fidelity.** Markdown in your structure, your voice, no frontmatter schema, no required sections, images and tables and code blocks preserved verbatim.
+- **Full fidelity.** Markdown in my structure and voice, no frontmatter schema, no required sections, images and tables and code blocks preserved verbatim.
 - **Never ingested.** `vault-ingest` triggers on `*/_inbox/**` paths only — `References/` is invisible to it.
 - **Never validated.** `verify-wiki.py` only walks `Domain/category/*.md`; `References/` is out of scope.
 - **Never reorganised.** [`templates/day-zero-reorganise-prompt.md`](templates/day-zero-reorganise-prompt.md) and [`templates/day-zero-categories-prompt.md`](templates/day-zero-categories-prompt.md) list it under LEAVE UNTOUCHED.
@@ -144,7 +144,7 @@ The wiki is not the only home for knowledge. Some content does not fit the compi
 2. **Manual concept seeding.** While working through the doc, drop per-concept inbox files into the relevant `Domain/_inbox/` citing the reference doc as source. The wiki accumulates concept pages naturally; the reference doc stays intact.
 3. **On-demand extraction.** A separate Claude prompt scans the reference doc, identifies concepts worth promoting to wiki pages, and generates one inbox file per concept with a citation back. The source doc is read-only throughout.
 
-This keeps the llm-wiki concept intact — the wiki remains a compounding network of atomic concepts — while giving your hand-authored knowledge assets a permanent, untouched home. Zero information loss, explicit rather than implicit archival, and compatible with the existing pipeline without modifying `vault-ingest` or `verify-wiki.py`.
+This keeps the llm-wiki concept intact — the wiki remains a compounding network of atomic concepts — while giving me  hand-authored knowledge assets a permanent, untouched home. Zero information loss, explicit rather than implicit archival, and compatible with the existing pipeline without modifying `vault-ingest` or `verify-wiki.py`.
 
 Starter content for `References/_INDEX.md` (what lives here, conventions, and the workflow choices above) is at [`templates/references-index.md`](templates/references-index.md).
 
